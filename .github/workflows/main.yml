@@ -24,6 +24,5 @@ jobs:
       run: |
         aws s3 sync . s3://ege-cloud-resume-challenge/ \
         --delete \
-        --acl public-read \
         --exclude ".git/*" \
         --exclude ".github/*"
