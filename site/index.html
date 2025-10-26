@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ege Uzun — Cloud Resume Challenge</title>
+    <meta name="description" content="Ege Uzun|Cloud Resume Challenge" />
+    <link rel="stylesheet" href="styles.css" />
+   <link rel="icon" type="image/png" href="/favicon.png" />
+    <script defer src="config.js"></script>
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/">EGE UZUN</a>
+        <nav class="nav">
+          <a href="#iletisim">İletişim</a>
+          <a href="cv.html">CV</a>
+          <a href="#projeler">Projeler</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <h1>Cloud Resume Challenge</h1>
+        <p>
+          Bu site AWS S3 üzerinde barındırılan, ziyaretçi sayısını AWS Lambda +
+          DynamoDB ile artırıp gösteren kişisel sayfamın temelini oluşturur.
+        </p>
+        <div class="counter">
+          <span class="label">Ziyaretçi sayısı</span>
+          <span id="visitorCount" class="value">—</span>
+        </div>
+      </section>
+
+      <section id="projeler" class="section">
+        <h2>Projeler</h2>
+        <ul class="cards">
+          <li class="card">
+            <h3>Cloud Resume</h3>
+            <p>
+              Statik web + API + veritabanı birleşimiyle bulut üzerinde tam uçtan uca
+              bir örnek. Şu an buradasınız.
+            </p>
+          </li>
+          <li class="card">
+            <h3>Auto‑m365‑user‑add</h3>
+            <p>Graph API ile otomatik M365 kullanıcı tedariki ve lisanslama. <a href="auto-m365-user-add.html">Sayfayı aç</a>.</p>
+          </li>
+          <li class="card">
+            <h3>Iris Veri Seti Analizi</h3>
+            <p>Keşifsel veri analizi ve Plotly ile görselleştirme. <a href="iris.html">Sayfayı aç</a>.</p>
+          </li>
+      <section id="iletisim" class="section">
+        <h2>İletişim</h2>
+        <ul class="list">
+          <li>E-posta: <a href="mailto:info@egeuzun.me">info@egeuzun.me</a></li>
+          <li>GitHub: <a href="https://github.com/egeeuzun" target="_blank" rel="noopener">github.com/egeeuzun</a></li>
+          <li>LinkedIn: <a href="https://www.linkedin.com/in/egeeuzun" target="_blank" rel="noopener">linkedin.com/in/egeeuzun</a></li>
+          <li>Daha Fazlası: <a href="https://sss.egeuzun.me" target="_blank" rel="noopener">sss.egeuzun.me</a></li>
+        </ul>
+      </section>
+
+      <section id="cv" class="section">
+        <h2>CV</h2>
+        <p>
+          CV’min HTML versiyonu için <a href="cv.html">buraya</a> bakabilirsiniz. PDF
+          indirmek için <a href="assets/cv.pdf" target="_blank">cv.pdf</a>.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <small>© <span id="year"></span> Ege Uzun</small>
+      </div>
+    </footer>
+  </body>
+  </html>

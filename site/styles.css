@@ -1,0 +1,71 @@
+/* Base */
+:root {
+  --bg: #ece5da;
+  --fg: #1c1c1c;
+  --muted: #666;
+  --accent: #0f62fe;
+  --border: #c9c1b6;
+  --container: 1040px;
+}
+
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--fg);
+  background: var(--bg);
+  font: 16px/1.6 Georgia, 'Times New Roman', Times, serif;
+}
+a { color: inherit; text-underline-offset: 3px; }
+
+.container { max-width: var(--container); margin: 0 auto; padding: 0 20px; }
+
+/* Header */
+.site-header {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 10;
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between; height: 72px;
+}
+.brand { font-weight: 700; letter-spacing: 1px; text-decoration: none; }
+.nav a {
+  margin-left: 28px; text-decoration: none; position: relative;
+}
+.nav a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px;
+  background: transparent; transition: background-color .2s ease;
+}
+.nav a:hover::after { background: var(--fg); }
+
+/* Sections */
+.hero { padding: 56px 0 24px; }
+.hero h1 { margin: 0 0 8px; font-size: 36px; line-height: 1.2; }
+.hero p { margin: 0 0 20px; color: var(--muted); }
+.counter { display: inline-flex; align-items: baseline; gap: 10px; }
+.counter .label { color: var(--muted); font-size: 14px; }
+.counter .value { font-weight: 700; font-size: 28px; }
+
+.section { padding: 28px 0; border-top: 1px solid var(--border); }
+.section h2 { margin: 0 0 12px; font-size: 24px; }
+
+.cards { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.card { background: #f6f1ea; border: 1px solid var(--border); padding: 16px; border-radius: 8px; }
+
+.list { margin: 0; padding-left: 18px; }
+
+/* Footer */
+.site-footer { border-top: 1px solid var(--border); padding: 24px 0; margin-top: 32px; color: var(--muted); }
+
+/* CV page */
+.cv-container { padding: 32px 0; }
+.cv-actions { margin: 8px 0 16px; }
+.pdf-embed { width: 100%; height: 80vh; border: 1px solid var(--border); background: white; }
+
+@media (max-width: 640px) {
+  .nav a { margin-left: 16px; }
+  .hero h1 { font-size: 28px; }
+}
+

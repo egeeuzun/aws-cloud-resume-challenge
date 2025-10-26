@@ -1,0 +1,73 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Cloud Resume backend — Lambda + DynamoDB + HTTP API
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Timeout: 5
+    MemorySize: 256
+
+Parameters:
+  AllowedOrigin:
+    Type: String
+    Description: CORS için izin verilen origin (ör. https://kendi-domainin.com veya S3 website endpointi)
+    Default: "*"
+  TableName:
+    Type: String
+    Default: VisitorsTable
+  ItemId:
+    Type: String
+    Default: resume
+
+Resources:
+  VisitorsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Ref TableName
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+
+  CounterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backend/lambda
+      Handler: app.lambda_handler
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref TableName
+          PRIMARY_KEY: pk
+          ITEM_ID: !Ref ItemId
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TableName
+      Events:
+        GetVisits:
+          Type: HttpApi
+          Properties:
+            Path: /visits
+            Method: GET
+            ApiId: !Ref PublicHttpApi
+
+  PublicHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins:
+          - !Ref AllowedOrigin
+        AllowMethods:
+          - GET
+          - OPTIONS
+        AllowHeaders:
+          - content-type
+
+Outputs:
+  ApiUrl:
+    Description: HTTP API endpoint base URL
+    Value: !Sub "https://${PublicHttpApi}.execute-api.${AWS::Region}.amazonaws.com"
+

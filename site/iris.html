@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Iris Veri Seti Analizi ve Görselleştirme</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist@2.35.2/plotly.min.js"></script>
+    <script defer src="iris.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/">EGE UZUN</a>
+        <nav class="nav">
+          <a href="index.html#iletisim">İletişim</a>
+          <a href="index.html#blog">Blog</a>
+          <a href="cv.html">CV</a>
+          <a href="index.html#projeler">Projeler</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <h1>Iris Veri Seti Analizi ve Görselleştirme</h1>
+        <p>
+          Iris veri seti; üç iris türü (setosa, versicolor, virginica) için
+          sepal/petal uzunluk ve genişlik ölçümlerini içerir.
+        </p>
+      </section>
+
+      <section class="section" id="veri">
+        <h2>Veri Yükleme ve Keşif</h2>
+        <p>Sayfa, yerel <code>data/iris.csv</code> dosyasını otomatik yükler.</p>
+        <div id="summary" class="card" style="margin:12px 0; padding:12px;"></div>
+        <h3>İlk Satırlar</h3>
+        <div id="preview" class="card" style="overflow:auto;"></div>
+      </section>
+
+      <section class="section" id="gorsel">
+        <h2>Görselleştirmeler</h2>
+        <div id="histSepLen" style="height:360px;"></div>
+        <div id="histSepWid" style="height:360px;"></div>
+        <div id="scatterSepal" style="height:420px;"></div>
+        <div id="scatterPetal" style="height:420px;"></div>
+      </section>
+
+      <section class="section" id="model">
+        <h2>Python ile Modelleme (KNN)</h2>
+        <p>
+          Aşağıda KNN sınıflandırıcı ile örnek eğitim-değerlendirme akışı yer alır.
+          İndirilebilir Jupyter defteri de mevcuttur.
+        </p>
+<pre style="white-space: pre-wrap; background:#f6f1ea; border:1px solid var(--border); padding:12px;">
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+
+# Veri setini yükle (repo içinden)
+df = pd.read_csv('../site/data/iris.csv')
+
+# Özellik/etiket ayır
+X = df.drop('species', axis=1)
+y = df['species']
+
+# Eğitim/test böl
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=42, stratify=y)
+
+# Standartlaştır
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# KNN eğit
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X_train, y_train)
+
+# Değerlendir
+y_pred = knn.predict(X_test)
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+</pre>
+        <p class="cv-actions">
+          <a href="notebooks/iris_knn.ipynb" download>Jupyter Notebook’u indir</a>
+          · 
+          <a href="#" onclick="alert('Notebook’u GitHub’a yükledikten sonra Colab linkini güncelleyin.'); return false;">Colab’da aç</a>
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <small>© <script>document.write(new Date().getFullYear())</script> Ege Uzun</small>
+      </div>
+    </footer>
+  </body>
+  </html>

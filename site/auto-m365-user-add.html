@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Auto‑m365‑user‑add — Otomatik Kullanıcı Tedariki</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/">EGE UZUN</a>
+        <nav class="nav">
+          <a href="index.html#iletisim">İletişim</a>
+          <a href="index.html#blog">Blog</a>
+          <a href="cv.html">CV</a>
+          <a href="index.html#projeler">Projeler</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <h1>Auto‑m365‑user‑add</h1>
+        <p>Microsoft Graph API ile otomatik kullanıcı tedariki ve lisans atama script’i.</p>
+      </section>
+
+      <section class="section">
+        <h2>Özet</h2>
+        <p>
+          Bu araç, Azure AD uygulama kimlik bilgileri (Client Credentials flow) ile
+          Microsoft Graph API’ye erişip yeni kullanıcı oluşturur ve lisans atar.
+        </p>
+        <p class="cv-actions">
+          <a href="projects/auto-m365-user-add/auto_m365_user_add.py" download>Python script’i indir</a>
+          · <a href="projects/auto-m365-user-add/requirements.txt" download>requirements.txt</a>
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Gereksinimler</h2>
+        <ul class="list">
+          <li>Python 3.8+</li>
+          <li>Azure AD’de uygulama (App registration) ve gerekli Graph izinleri</li>
+          <li>Kitaplıklar: <code>msal</code>, <code>requests</code></li>
+        </ul>
+        <pre style="background:#f6f1ea; border:1px solid var(--border); padding:12px;">pip install msal requests</pre>
+      </section>
+
+      <section class="section">
+        <h2>Yapılandırma</h2>
+        <p>Kimlik bilgilerini ortam değişkeni olarak ayarlayın:</p>
+        <pre style="background:#f6f1ea; border:1px solid var(--border); padding:12px;">$env:CLIENT_ID = "your_client_id"
+$env:CLIENT_SECRET = "your_client_secret"
+$env:TENANT_ID = "your_tenant_id"</pre>
+        <p>Örnek kullanıcı ve lisans verisi script içinde yer alır; dilerseniz JSON’dan da okuyacak şekilde genişletilebilir.</p>
+      </section>
+
+      <section class="section">
+        <h2>Örnek Kod</h2>
+<pre style="white-space: pre-wrap; background:#f6f1ea; border:1px solid var(--border); padding:12px;">
+import os
+import msal
+import requests
+
+CLIENT_ID = os.getenv('CLIENT_ID')
+CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+TENANT_ID = os.getenv('TENANT_ID')
+
+AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
+SCOPE = ["https://graph.microsoft.com/.default"]
+GRAPH = "https://graph.microsoft.com/v1.0"
+
+app = msal.ConfidentialClientApplication(CLIENT_ID, authority=AUTHORITY, client_credential=CLIENT_SECRET)
+
+def get_access_token():
+    result = app.acquire_token_for_client(scopes=SCOPE)
+    if 'access_token' in result:
+        return result['access_token']
+    raise RuntimeError('Token alınamadı: %s' % result)
+
+def create_user(user_data):
+    token = get_access_token()
+    headers = { 'Authorization': f'Bearer {token}', 'Content-Type': 'application/json' }
+    r = requests.post(f'{GRAPH}/users', headers=headers, json=user_data)
+    r.raise_for_status()
+    return r.json()
+
+def assign_license(user_id, license_data):
+    token = get_access_token()
+    headers = { 'Authorization': f'Bearer {token}', 'Content-Type': 'application/json' }
+    r = requests.post(f'{GRAPH}/users/{user_id}/assignLicense', headers=headers, json=license_data)
+    r.raise_for_status()
+    return r.json()
+
+new_user = {
+  "accountEnabled": True,
+  "displayName": "ege uzun",
+  "mailNickname": "egeeee",
+  "userPrincipalName": "ege@yourdomain.com",
+  "passwordProfile": {
+    "forceChangePasswordNextSignIn": True,
+    "password": "your_password"
+  }
+}
+
+license_data = {
+  "addLicenses": [ { "skuId": "your_sku_id" } ],
+  "removeLicenses": []
+}
+
+created = create_user(new_user)
+print(created)
+assigned = assign_license(created['id'], license_data)
+print(assigned)
+</pre>
+        <p class="cv-actions">Daha fazlası: <a href="https://learn.microsoft.com/graph/api/user-post-users" target="_blank" rel="noopener">Graph API — Kullanıcı oluştur</a></p>
+      </section>
+
+      <section class="section">
+        <h2>Güvenlik Notları</h2>
+        <ul class="list">
+          <li>İstemci sırrını (.env/KeyVault) güvenli saklayın; koda gömmeyin.</li>
+          <li>Uygulama izinlerini en az ayrıcalık ilkesine göre verin.</li>
+          <li>Üretimde hata/denge kontrolleri ve kayıt (logging) ekleyin.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <small>© <script>document.write(new Date().getFullYear())</script> Ege Uzun</small>
+      </div>
+    </footer>
+  </body>
+  </html>
