@@ -4,7 +4,7 @@ import boto3
 
 # DynamoDB client/table setup with environment variables for flexibility
 dynamodb = boto3.resource("dynamodb")
-TABLE_NAME = os.environ.get("TABLE_NAME", "cloud-resume-test")
+TABLE_NAME = os.environ.get("TABLE_NAME", "cloud-resume-counter")
 PRIMARY_KEY = os.environ.get("PRIMARY_KEY", "id")
 ITEM_ID = os.environ.get("ITEM_ID", "1")
 COUNT_ATTR = os.environ.get("COUNT_ATTR", "views")  # stored attribute name in the table
