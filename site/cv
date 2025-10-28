@@ -14,7 +14,7 @@
         <nav class="nav">
           <a href="index.html#iletisim">İletişim</a>
           <a href="index.html#blog">Blog</a>
-          <a href="cv.html" aria-current="page">CV</a>
+          <a href="/cv" aria-current="page">CV</a>
           <a href="index.html#projeler">Projeler</a>
         </nav>
       </div>
