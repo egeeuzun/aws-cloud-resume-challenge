@@ -1,1 +1,1 @@
-window.VISITOR_COUNT_ENDPOINT = "https://gkz67wer27hpinusljqlqttnsi0zxhxg.lambda-url.eu-central-1.on.aws";
+window.VISITOR_COUNT_ENDPOINT = "https://pqsn63tlxovknvxawodmgucgvq0akcmu.lambda-url.eu-west-1.on.aws";

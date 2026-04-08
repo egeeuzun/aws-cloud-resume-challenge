@@ -1,96 +1,154 @@
 (function () {
-  const endpoint = window.VISITOR_COUNT_ENDPOINT || null;
-  const el = document.getElementById('visitorCount');
-  const year = document.getElementById('year');
-  
-  if (year) {
-    year.textContent = new Date().getFullYear();
+  /* ── DOM References ── */
+  const el           = document.getElementById('visitorCount');
+  const yearEl       = document.getElementById('year');
+  const toggleBtn    = document.getElementById('themeToggle');
+  const navToggleBtn = document.getElementById('navToggle');
+  const nav          = document.getElementById('main-nav');
+  const endpoint     = window.VISITOR_COUNT_ENDPOINT || null;
+
+  /* ── Year ── */
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* ──────────────────────────
+     Theme Toggle
+     ────────────────────────── */
+  function getTheme() {
+    return document.documentElement.getAttribute('data-theme') || 'dark';
   }
 
-  async function fetchCount() {
-    if (!el) {
-      console.warn('visitorCount elementi bulunamadı');
-      return;
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function () {
+      setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+    });
+  }
+
+  // Listen for OS preference changes while tab is open
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+    if (!localStorage.getItem('theme')) {
+      setTheme(e.matches ? 'dark' : 'light');
     }
-    
+  });
+
+  /* ──────────────────────────
+     Mobile Nav Toggle
+     ────────────────────────── */
+  if (navToggleBtn && nav) {
+    navToggleBtn.addEventListener('click', function () {
+      navToggleBtn.classList.toggle('open');
+      nav.classList.toggle('open');
+    });
+
+    // Close nav when a link is clicked
+    nav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        navToggleBtn.classList.remove('open');
+        nav.classList.remove('open');
+      });
+    });
+  }
+
+  /* ──────────────────────────
+     Scroll Reveal (IntersectionObserver)
+     ────────────────────────── */
+  var reveals = document.querySelectorAll('.reveal');
+
+  if ('IntersectionObserver' in window && reveals.length) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    reveals.forEach(function (el) { observer.observe(el); });
+  } else {
+    // Fallback: show everything
+    reveals.forEach(function (el) { el.classList.add('visible'); });
+  }
+
+  /* ──────────────────────────
+     Active Nav Highlighting
+     ────────────────────────── */
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('.nav a[data-section]');
+
+  function onScroll() {
+    var scrollY = window.scrollY + 120;
+
+    sections.forEach(function (section) {
+      var top    = section.offsetTop;
+      var height = section.offsetHeight;
+      var id     = section.getAttribute('id');
+
+      navLinks.forEach(function (link) {
+        if (link.getAttribute('data-section') === id) {
+          if (scrollY >= top && scrollY < top + height) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        }
+      });
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ──────────────────────────
+     Visitor Counter (preserved logic)
+     ────────────────────────── */
+  async function fetchCount() {
+    if (!el) return;
+
     if (!endpoint) {
-      console.warn('VISITOR_COUNT_ENDPOINT tanımlanmamış');
       el.textContent = '-';
       return;
     }
 
     try {
-      console.log('Fetching from:', endpoint);
-      
-      const response = await fetch(endpoint, {
+      var response = await fetch(endpoint, {
         method: 'GET',
         mode: 'cors',
         cache: 'no-store',
-        headers: { 
-          'Accept': 'application/json'
-        }
+        headers: { 'Accept': 'application/json' }
       });
 
-      console.log('Response status:', response.status);
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+      if (!response.ok) throw new Error('HTTP ' + response.status);
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
+      var text = await response.text();
+      var data;
+      try { data = JSON.parse(text); } catch (e) { throw new Error('Invalid JSON'); }
 
-      const text = await response.text();
-      console.log('Raw response:', text);
+      var count = null;
 
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (e) {
-        console.error('JSON parse error:', e);
-        throw new Error('Invalid JSON response');
-      }
-
-      console.log('Parsed data:', data);
-
-      // Lambda response body'sini parse et
-      let count = null;
-      
       if (data && typeof data === 'object') {
-        // API Gateway response format: { statusCode, body, headers }
         if (data.body) {
-          console.log('Body type:', typeof data.body);
-          
           if (typeof data.body === 'string') {
-            try {
-              const bodyObj = JSON.parse(data.body);
-              console.log('Parsed body:', bodyObj);
-              count = bodyObj.count;
-            } catch (e) {
-              console.error('Body parse error:', e);
-            }
+            try { count = JSON.parse(data.body).count; } catch (e) { /* skip */ }
           } else if (typeof data.body === 'object') {
             count = data.body.count;
           }
-        }
-        // Direct response format: { count: number }
-        else if (typeof data.count !== 'undefined') {
+        } else if (typeof data.count !== 'undefined') {
           count = data.count;
         }
       }
 
-      console.log('Final count value:', count);
-
       if (typeof count === 'number' && Number.isFinite(count)) {
         el.textContent = count.toLocaleString('tr-TR');
-      } else if (count === null || count === undefined) {
-        el.textContent = '0';
-        console.warn('Count is null/undefined, showing 0');
       } else {
-        el.textContent = '-';
-        console.warn('Invalid count value:', count);
+        el.textContent = '0';
       }
-
-    } catch (error) {
-      console.error('Fetch error:', error);
+    } catch (err) {
+      console.error('Visitor count error:', err);
       el.textContent = '-';
     }
   }

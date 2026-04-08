@@ -1,66 +1,107 @@
 <!DOCTYPE html>
 <html lang="tr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Auto‑m365‑user‑add — Otomatik Kullanıcı Tedariki</title>
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <header class="site-header">
-      <div class="container header-inner">
-        <a class="brand" href="/">EGE UZUN</a>
-        <nav class="nav">
-          <a href="index.html#iletisim">İletişim</a>
-          <a href="index.html#blog">Blog</a>
-          <a href="/cv">CV</a>
-          <a href="index.html#projeler">Projeler</a>
-        </nav>
-      </div>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-i18n-title="m365.meta.title">Auto‑M365‑User‑Add — Otomatik Kullanıcı Tedariki</title>
+  <meta name="description" content="Microsoft Graph API ile otomatik M365 kullanıcı tedariki ve lisans atama." />
+  <span data-i18n-meta-desc="m365.meta.description" hidden></span>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="i18n.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <a class="brand" href="/">Ege Uzun</a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç/kapat" data-i18n-aria="aria.navToggle" type="button">
+        <svg class="icon-hamburger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+
+      <nav class="nav" id="main-nav">
+        <a href="/" data-i18n="nav.home">Ana Sayfa</a>
+        <a href="/#projeler" data-i18n="nav.projects">Projeler</a>
+        <a href="/assets/cv.pdf" target="_blank" data-i18n="nav.cv">CV</a>
+        <a href="/#iletisim" data-i18n="nav.contact">İletişim</a>
+
+        <!-- Social icons -->
+        <a href="https://github.com/egeeuzun" target="_blank" rel="noopener" class="social-icon" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/egeeuzun" target="_blank" rel="noopener" class="social-icon" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+
+        <!-- Language Toggle -->
+        <button id="langToggle" class="lang-toggle" aria-label="Switch to English" type="button">
+          <span class="flag-tr">TR</span>
+          <span class="flag-en">EN</span>
+        </button>
+
+        <button id="themeToggle" class="theme-toggle" aria-label="Tema değiştir" data-i18n-aria="aria.themeToggle" type="button">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
+      </nav>
     </header>
 
-    <main class="container">
-      <section class="hero">
-        <h1>Auto‑m365‑user‑add</h1>
-        <p>Microsoft Graph API ile otomatik kullanıcı tedariki ve lisans atama script’i.</p>
+    <main>
+      <section class="page-hero">
+        <h1 data-i18n="m365.title">Auto‑M365‑User‑Add</h1>
+        <p data-i18n="m365.subtitle">Microsoft Graph API ile otomatik kullanıcı tedariki ve lisans atama script'i.</p>
       </section>
 
-      <section class="section">
-        <h2>Özet</h2>
-        <p>
+      <section class="content-section">
+        <h2 data-i18n="m365.summary.title">Özet</h2>
+        <p data-i18n="m365.summary.text">
           Bu araç, Azure AD uygulama kimlik bilgileri (Client Credentials flow) ile
-          Microsoft Graph API’ye erişip yeni kullanıcı oluşturur ve lisans atar.
+          Microsoft Graph API'ye erişip yeni kullanıcı oluşturur ve lisans atar.
         </p>
-        <p class="cv-actions">
-          <a href="projects/auto-m365-user-add/auto_m365_user_add.py" download>Python script’i indir</a>
-          · <a href="projects/auto-m365-user-add/requirements.txt" download>requirements.txt</a>
-        </p>
+        <div class="action-links">
+          <a href="projects/auto-m365-user-add/auto_m365_user_add.py" download data-i18n="m365.download.script">Python script'i indir</a>
+          <span class="separator">·</span>
+          <a href="projects/auto-m365-user-add/requirements.txt" download>requirements.txt</a>
+        </div>
       </section>
 
-      <section class="section">
-        <h2>Gereksinimler</h2>
-        <ul class="list">
-          <li>Python 3.8+</li>
-          <li>Azure AD’de uygulama (App registration) ve gerekli Graph izinleri</li>
+      <section class="content-section">
+        <h2 data-i18n="m365.requirements.title">Gereksinimler</h2>
+        <ul>
+          <li data-i18n="m365.req.1">Python 3.8+</li>
+          <li data-i18n="m365.req.2">Azure AD'de uygulama (App registration) ve gerekli Graph izinleri</li>
           <li>Kitaplıklar: <code>msal</code>, <code>requests</code></li>
         </ul>
-        <pre style="background:#f6f1ea; border:1px solid var(--border); padding:12px;">pip install msal requests</pre>
+        <pre>pip install msal requests</pre>
       </section>
 
-      <section class="section">
-        <h2>Yapılandırma</h2>
-        <p>Kimlik bilgilerini ortam değişkeni olarak ayarlayın:</p>
-        <pre style="background:#f6f1ea; border:1px solid var(--border); padding:12px;">$env:CLIENT_ID = "your_client_id"
+      <section class="content-section">
+        <h2 data-i18n="m365.config.title">Yapılandırma</h2>
+        <p data-i18n="m365.config.desc">Kimlik bilgilerini ortam değişkeni olarak ayarlayın:</p>
+        <pre>$env:CLIENT_ID = "your_client_id"
 $env:CLIENT_SECRET = "your_client_secret"
 $env:TENANT_ID = "your_tenant_id"</pre>
-        <p>Örnek kullanıcı ve lisans verisi script içinde yer alır; dilerseniz JSON’dan da okuyacak şekilde genişletilebilir.</p>
+        <p data-i18n="m365.config.note">Örnek kullanıcı ve lisans verisi script içinde yer alır; dilerseniz JSON'dan da okuyacak şekilde genişletilebilir.</p>
       </section>
 
-      <section class="section">
-        <h2>Örnek Kod</h2>
-<pre style="white-space: pre-wrap; background:#f6f1ea; border:1px solid var(--border); padding:12px;">
-import os
+      <section class="content-section">
+        <h2 data-i18n="m365.code.title">Örnek Kod</h2>
+        <pre>import os
 import msal
 import requests
 
@@ -72,7 +113,11 @@ AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
 SCOPE = ["https://graph.microsoft.com/.default"]
 GRAPH = "https://graph.microsoft.com/v1.0"
 
-app = msal.ConfidentialClientApplication(CLIENT_ID, authority=AUTHORITY, client_credential=CLIENT_SECRET)
+app = msal.ConfidentialClientApplication(
+    CLIENT_ID,
+    authority=AUTHORITY,
+    client_credential=CLIENT_SECRET
+)
 
 def get_access_token():
     result = app.acquire_token_for_client(scopes=SCOPE)
@@ -82,56 +127,111 @@ def get_access_token():
 
 def create_user(user_data):
     token = get_access_token()
-    headers = { 'Authorization': f'Bearer {token}', 'Content-Type': 'application/json' }
-    r = requests.post(f'{GRAPH}/users', headers=headers, json=user_data)
+    headers = {
+        'Authorization': f'Bearer {token}',
+        'Content-Type': 'application/json'
+    }
+    r = requests.post(
+        f'{GRAPH}/users',
+        headers=headers,
+        json=user_data
+    )
     r.raise_for_status()
     return r.json()
 
 def assign_license(user_id, license_data):
     token = get_access_token()
-    headers = { 'Authorization': f'Bearer {token}', 'Content-Type': 'application/json' }
-    r = requests.post(f'{GRAPH}/users/{user_id}/assignLicense', headers=headers, json=license_data)
+    headers = {
+        'Authorization': f'Bearer {token}',
+        'Content-Type': 'application/json'
+    }
+    r = requests.post(
+        f'{GRAPH}/users/{user_id}/assignLicense',
+        headers=headers,
+        json=license_data
+    )
     r.raise_for_status()
     return r.json()
 
 new_user = {
-  "accountEnabled": True,
-  "displayName": "ege uzun",
-  "mailNickname": "egeeee",
-  "userPrincipalName": "ege@yourdomain.com",
-  "passwordProfile": {
-    "forceChangePasswordNextSignIn": True,
-    "password": "your_password"
-  }
+    "accountEnabled": True,
+    "displayName": "ege uzun",
+    "mailNickname": "egeeee",
+    "userPrincipalName": "ege@yourdomain.com",
+    "passwordProfile": {
+        "forceChangePasswordNextSignIn": True,
+        "password": "your_password"
+    }
 }
 
 license_data = {
-  "addLicenses": [ { "skuId": "your_sku_id" } ],
-  "removeLicenses": []
+    "addLicenses": [{"skuId": "your_sku_id"}],
+    "removeLicenses": []
 }
 
 created = create_user(new_user)
 print(created)
 assigned = assign_license(created['id'], license_data)
-print(assigned)
-</pre>
-        <p class="cv-actions">Daha fazlası: <a href="https://learn.microsoft.com/graph/api/user-post-users" target="_blank" rel="noopener">Graph API — Kullanıcı oluştur</a></p>
+print(assigned)</pre>
+        <div class="action-links">
+          <span data-i18n="m365.code.more">Daha fazlası:</span>
+          <a href="https://learn.microsoft.com/graph/api/user-post-users" target="_blank" rel="noopener" data-i18n="m365.code.link">Graph API — Kullanıcı oluştur</a>
+        </div>
       </section>
 
-      <section class="section">
-        <h2>Güvenlik Notları</h2>
-        <ul class="list">
-          <li>İstemci sırrını (.env/KeyVault) güvenli saklayın; koda gömmeyin.</li>
-          <li>Uygulama izinlerini en az ayrıcalık ilkesine göre verin.</li>
-          <li>Üretimde hata/denge kontrolleri ve kayıt (logging) ekleyin.</li>
+      <section class="content-section">
+        <h2 data-i18n="m365.security.title">Güvenlik Notları</h2>
+        <ul>
+          <li data-i18n="m365.security.1">İstemci sırrını (.env/KeyVault) güvenli saklayın; koda gömmeyin.</li>
+          <li data-i18n="m365.security.2">Uygulama izinlerini en az ayrıcalık ilkesine göre verin.</li>
+          <li data-i18n="m365.security.3">Üretimde hata/denge kontrolleri ve kayıt (logging) ekleyin.</li>
         </ul>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="container">
-        <small>© <script>document.write(new Date().getFullYear())</script> Ege Uzun</small>
+    <footer>
+      <div class="footer-left">
+        <span>&copy; <script>document.write(new Date().getFullYear())</script> Ege Uzun</span>
+      </div>
+      <div class="footer-nav">
+        <a href="/" data-i18n="footer.home">Ana Sayfa</a>
+        <a href="/#projeler" data-i18n="footer.projects">Projeler</a>
+        <a href="/#iletisim" data-i18n="footer.contact">İletişim</a>
+        <a href="https://github.com/egeeuzun" target="_blank" rel="noopener" class="social-icon" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/egeeuzun" target="_blank" rel="noopener" class="social-icon" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://sss.egeuzun.me" target="_blank" rel="noopener" data-i18n="footer.faq">SSS</a>
       </div>
     </footer>
-  </body>
-  </html>
+  </div>
+
+  <script>
+    var toggle = document.getElementById('themeToggle');
+    if (toggle) {
+      toggle.addEventListener('click', function () {
+        var current = document.documentElement.getAttribute('data-theme') || 'dark';
+        var next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    }
+    var navBtn = document.getElementById('navToggle');
+    var nav = document.getElementById('main-nav');
+    if (navBtn && nav) {
+      navBtn.addEventListener('click', function () {
+        navBtn.classList.toggle('open');
+        nav.classList.toggle('open');
+      });
+      nav.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          navBtn.classList.remove('open');
+          nav.classList.remove('open');
+        });
+      });
+    }
+  </script>
+</body>
+</html>
