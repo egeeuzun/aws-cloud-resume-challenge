@@ -26,3 +26,9 @@ jobs:
         --delete \
         --exclude ".git/*" \
         --exclude ".github/*"
+
+    - name: Fix content-type for extensionless pages
+      run: |
+        for f in site/iris site/auto-m365-user-add; do
+          aws s3 cp "$f" "s3://ege2-cloud-resume-challenge/$f" --content-type "text/html"
+        done
