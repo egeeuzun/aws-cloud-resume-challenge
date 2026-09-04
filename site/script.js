@@ -14,7 +14,7 @@
      Theme Toggle
      ────────────────────────── */
   function getTheme() {
-    return document.documentElement.getAttribute('data-theme') || 'dark';
+    return document.documentElement.getAttribute('data-theme') || 'light';
   }
 
   function setTheme(theme) {
@@ -27,13 +27,6 @@
       setTheme(getTheme() === 'dark' ? 'light' : 'dark');
     });
   }
-
-  // Listen for OS preference changes while tab is open
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
-    if (!localStorage.getItem('theme')) {
-      setTheme(e.matches ? 'dark' : 'light');
-    }
-  });
 
   /* ──────────────────────────
      Mobile Nav Toggle

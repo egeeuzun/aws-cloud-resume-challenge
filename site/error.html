@@ -10,7 +10,7 @@
   <script>
     (function () {
       var t = localStorage.getItem('theme');
-      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      if (t !== 'dark' && t !== 'light') t = 'light';
       document.documentElement.setAttribute('data-theme', t);
     })();
   </script>
@@ -79,7 +79,7 @@
     var toggle = document.getElementById('themeToggle');
     if (toggle) {
       toggle.addEventListener('click', function () {
-        var current = document.documentElement.getAttribute('data-theme') || 'dark';
+        var current = document.documentElement.getAttribute('data-theme') || 'light';
         var next = current === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
