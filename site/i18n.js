@@ -20,6 +20,8 @@
 
       /* ── Projects ── */
       'projects.title': 'Projeler',
+      'project.wpha.name': 'Yüksek Erişilebilir WordPress Altyapısı',
+      'project.wpha.desc': 'Terraform ile AWS üzerinde çok AZ\'li, otomatik ölçeklenen WordPress altyapısı: CloudFront ve WAF arkasında ALB, ECS Fargate servisi, okuma replikalı RDS MariaDB, ElastiCache, paylaşımlı wp-content için EFS ve CodePipeline tabanlı CI/CD.',
       'project.crc.desc': 'Statik web sitesi, API ve veritabanı birleşimiyle bulut üzerinde uçtan uca bir altyapı örneği.',
       'project.m365.name': 'Auto-M365-User-Add',
       'project.m365.desc': 'Microsoft Graph API ile otomatik M365 kullanıcı tedariki ve lisanslama akışı.',
@@ -106,6 +108,8 @@
 
       /* ── Projects ── */
       'projects.title': 'Projects',
+      'project.wpha.name': 'Highly Available WordPress Infrastructure',
+      'project.wpha.desc': 'A multi-AZ, auto-scaling WordPress platform on AWS built with Terraform: ALB behind CloudFront and WAF, an ECS Fargate service, RDS MariaDB with a read replica, ElastiCache, EFS for shared wp-content, and a CodePipeline-based CI/CD flow.',
       'project.crc.desc': 'An end-to-end cloud infrastructure example combining a static website, API, and database.',
       'project.m365.name': 'Auto-M365-User-Add',
       'project.m365.desc': 'Automated M365 user provisioning and licensing workflow using Microsoft Graph API.',

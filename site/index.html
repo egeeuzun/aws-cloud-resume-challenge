@@ -7,11 +7,11 @@
   <meta name="description" content="Ege Uzun — Bulut altyapıları, otomasyon çözümleri ve DevOps projeleri." />
   <span data-i18n-meta-desc="meta.description" hidden></span>
 
-  <!-- Theme: detect system preference before first paint -->
+  <!-- Theme: light by default on every device; user choice is remembered -->
   <script>
     (function () {
       var t = localStorage.getItem('theme');
-      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      if (t !== 'dark' && t !== 'light') t = 'light';
       document.documentElement.setAttribute('data-theme', t);
     })();
   </script>
@@ -87,6 +87,15 @@
       <section id="projeler">
         <h2 data-i18n="projects.title">Projeler</h2>
         <ul class="project-list">
+          <li class="project-item">
+            <div class="project-title">
+              <a href="https://github.com/egeeuzun/terraform-aws-wordpress-ha" target="_blank" rel="noopener" data-i18n="project.wpha.name">Yüksek Erişilebilir WordPress Altyapısı</a>
+            </div>
+            <p class="project-desc" data-i18n="project.wpha.desc">Terraform ile AWS üzerinde çok AZ'li, otomatik ölçeklenen WordPress altyapısı: CloudFront ve WAF arkasında ALB, ECS Fargate servisi, okuma replikalı RDS MariaDB, ElastiCache, paylaşımlı wp-content için EFS ve CodePipeline tabanlı CI/CD.</p>
+            <div class="project-tags">
+              <span>Terraform</span> <span>ECS Fargate</span> <span>RDS Multi-AZ</span> <span>CloudFront</span> <span>EFS</span>
+            </div>
+          </li>
           <li class="project-item">
             <div class="project-title">
               <a href="https://github.com/egeeuzun/aws-cloud-resume-challenge" target="_blank" rel="noopener">Cloud Resume Challenge</a>
