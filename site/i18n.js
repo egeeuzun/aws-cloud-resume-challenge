@@ -25,6 +25,8 @@
       'project.crc.desc': 'Statik web sitesi, API ve veritabanı birleşimiyle bulut üzerinde uçtan uca bir altyapı örneği.',
       'project.m365.name': 'Auto-M365-User-Add',
       'project.m365.desc': 'Microsoft Graph API ile otomatik M365 kullanıcı tedariki ve lisanslama akışı.',
+      'project.langchain.name': 'LangChain Fon Analizi',
+      'project.langchain.desc': 'LangChain ve LLM tabanlı doküman analizi: kaynak metinlerden yapılandırılmış içgörü ve soru-cevap akışı.',
       'project.iris.name': 'Iris Veri Seti Analizi',
       'project.iris.desc': 'Keşifsel veri analizi ve Plotly ile interaktif görselleştirme çalışması.',
 
@@ -113,6 +115,8 @@
       'project.crc.desc': 'An end-to-end cloud infrastructure example combining a static website, API, and database.',
       'project.m365.name': 'Auto-M365-User-Add',
       'project.m365.desc': 'Automated M365 user provisioning and licensing workflow using Microsoft Graph API.',
+      'project.langchain.name': 'LangChain Funds Analysis',
+      'project.langchain.desc': 'LLM-powered document analysis with LangChain: structured insights and a question-answering flow over source texts.',
       'project.iris.name': 'Iris Dataset Analysis',
       'project.iris.desc': 'Exploratory data analysis and interactive visualization using Plotly.',
 
