@@ -1,0 +1,2 @@
+# Kisisel bilgi (telefon) iceriyor; repoya girmez, scripts/upload_cv.sh ile S3'e yuklenir.
+site/assets/cv.pdf

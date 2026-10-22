@@ -20,12 +20,14 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
+    # cv.pdf repoda tutulmuyor (scripts/upload_cv.sh ile yuklenir); --delete onu silmesin diye haric.
     - name: Sync everything to S3
       run: |
         aws s3 sync . s3://ege2-cloud-resume-challenge/ \
         --delete \
         --exclude ".git/*" \
-        --exclude ".github/*"
+        --exclude ".github/*" \
+        --exclude "site/assets/cv.pdf"
 
     - name: Fix content-type for extensionless pages
       run: |
