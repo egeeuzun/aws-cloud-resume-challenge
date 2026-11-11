@@ -89,11 +89,16 @@
         <ul class="project-list">
           <li class="project-item">
             <div class="project-title">
-              <a href="https://github.com/egeeuzun/terraform-aws-wordpress-ha" target="_blank" rel="noopener" data-i18n="project.wpha.name">Yüksek Erişilebilir WordPress Altyapısı</a>
+              <a href="https://github.com/egeeuzun/woocommerce-istanbul-local-zone" target="_blank" rel="noopener" data-i18n="project.lz.name">İstanbul Local Zone'da WooCommerce</a>
             </div>
-            <p class="project-desc" data-i18n="project.wpha.desc">Terraform ile AWS üzerinde çok AZ'li, otomatik ölçeklenen WordPress altyapısı: CloudFront ve WAF arkasında ALB, ECS Fargate servisi, okuma replikalı RDS MariaDB, ElastiCache, paylaşımlı wp-content için EFS ve CodePipeline tabanlı CI/CD.</p>
+            <p class="project-desc" data-i18n="project.lz.desc">Frankfurt'ta çalışan bir WooCommerce mağazasını, müşteri verisi Türkiye'de kalsın diye AWS İstanbul Local Zone'a taşıdım ve verinin gerçekten Türkiye'de kalıp kalmadığını otomatik bir denetimle kontrol ettim. Proje üç açık kaynak parçadan oluşuyor:</p>
+            <ul class="project-parts">
+              <li data-i18n="project.lz.infra"><a href="https://github.com/egeeuzun/woocommerce-istanbul-local-zone" target="_blank" rel="noopener">Altyapı (Terraform)</a>: Aynı mağaza iki ortamda kuruluyor: Frankfurt'ta ECS Fargate ve RDS; İstanbul Local Zone'da ise Fargate ve RDS olmadığı için EC2 üzerinde ECS ve şifreli EBS ile zorunlu TLS kullanan, kendi kurduğum MariaDB 11.8. Yedekler zone içinde kalan DLM snapshot'larıyla alınıyor, iki ortamın önünde de CloudFront ve WAF var. Türkiye'den yapılan k6 ölçümünde dinamik sayfalar %37–67 hızlandı (sipariş verme 1045 ms → 529 ms).</li>
+              <li data-i18n="project.lz.image"><a href="https://github.com/egeeuzun/wordpress-shop-demo" target="_blank" rel="noopener">WordPress imajı</a>: ECS için Docker imajı olarak paketlenmiş, açılışta kendini Türkçe kurup sentetik veriyle dolduran bir demo market: 86 ürün, 150 müşteri, ~330 sipariş, ~200 yorum ve izlenecek hassas veri olarak her siparişte TCKN. Üst bar, isteğin geçtiği CloudFront edge'ini ve sunucunun çalıştığı zone'u canlı ölçüp gösteriyor.</li>
+              <li data-i18n="project.lz.guard"><a href="https://github.com/egeeuzun/residency-guard" target="_blank" rel="noopener">Residency Guard</a>: Python ve boto3 ile yazdığım salt okunur denetim aracı. 9 kuralla CloudWatch loglarındaki IP, e-posta ve TCKN desenlerini, ECS Exec oturumlarını, NAT çıkışını (VPC Flow Logs ve Athena), DNS sorgularını, snapshot kopyalarını ve yedek politikasını tarayıp ✅ / ⚠️ / ❌ raporu üretiyor. İlk denetimde 12 ❌ çıktı; düzeltmelerden sonra sonuç 15 ✅, 1 ⚠️, 1 ❌ (Frankfurt'taki NAT çıkışı).</li>
+            </ul>
             <div class="project-tags">
-              <span>Terraform</span> <span>ECS Fargate</span> <span>RDS Multi-AZ</span> <span>CloudFront</span> <span>EFS</span>
+              <span>Terraform</span> <span>Local Zones</span> <span>ECS on EC2</span> <span>MariaDB</span> <span>Docker</span> <span>Python / boto3</span> <span>Athena</span> <span>k6</span>
             </div>
           </li>
           <li class="project-item">

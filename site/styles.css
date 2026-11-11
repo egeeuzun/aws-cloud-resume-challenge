@@ -463,6 +463,34 @@ section {
   line-height: 1.65;
 }
 
+.project-parts {
+  margin: -0.25rem 0 0.9rem;
+  padding-left: 1.1rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.project-parts li {
+  margin-bottom: 0.45rem;
+}
+
+.project-parts li::marker {
+  color: var(--accent);
+}
+
+.project-parts a {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 2px;
+}
+
+.project-parts a:hover {
+  color: var(--accent);
+}
+
 .project-tags {
   font-size: 0.78rem;
   font-weight: 500;
@@ -954,6 +982,10 @@ section,
 
   .project-desc {
     font-size: 0.9rem;
+  }
+
+  .project-parts {
+    font-size: 0.87rem;
   }
 
   .project-tags {
