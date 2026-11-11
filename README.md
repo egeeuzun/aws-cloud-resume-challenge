@@ -11,5 +11,3 @@ What is Cloud Resume Challenge? - [The Cloud Resume Challenge](https://cloudresu
 - AWS CloudFront
 - AWS Lambda
 - Dynamo DB
-- GitHub Actions
-- Terraform
