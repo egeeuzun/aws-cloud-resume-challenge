@@ -20,8 +20,11 @@
 
       /* ── Projects ── */
       'projects.title': 'Projeler',
-      'project.wpha.name': 'Yüksek Erişilebilir WordPress Altyapısı',
-      'project.wpha.desc': 'Terraform ile AWS üzerinde çok AZ\'li, otomatik ölçeklenen WordPress altyapısı: CloudFront ve WAF arkasında ALB, ECS Fargate servisi, okuma replikalı RDS MariaDB, ElastiCache, paylaşımlı wp-content için EFS ve CodePipeline tabanlı CI/CD.',
+      'project.lz.name': 'İstanbul Local Zone\'da WooCommerce',
+      'project.lz.desc': 'Frankfurt\'ta çalışan bir WooCommerce mağazasını, müşteri verisi Türkiye\'de kalsın diye AWS İstanbul Local Zone\'a taşıdım ve verinin gerçekten Türkiye\'de kalıp kalmadığını otomatik bir denetimle kontrol ettim. Proje üç açık kaynak parçadan oluşuyor:',
+      'project.lz.infra': '<a href="https://github.com/egeeuzun/woocommerce-istanbul-local-zone" target="_blank" rel="noopener">Altyapı (Terraform)</a>: Aynı mağaza iki ortamda kuruluyor: Frankfurt\'ta ECS Fargate ve RDS; İstanbul Local Zone\'da ise Fargate ve RDS olmadığı için EC2 üzerinde ECS ve şifreli EBS ile zorunlu TLS kullanan, kendi kurduğum MariaDB 11.8. Yedekler zone içinde kalan DLM snapshot\'larıyla alınıyor, iki ortamın önünde de CloudFront ve WAF var. Türkiye\'den yapılan k6 ölçümünde dinamik sayfalar %37–67 hızlandı (sipariş verme 1045 ms → 529 ms).',
+      'project.lz.image': '<a href="https://github.com/egeeuzun/wordpress-shop-demo" target="_blank" rel="noopener">WordPress imajı</a>: ECS için Docker imajı olarak paketlenmiş, açılışta kendini Türkçe kurup sentetik veriyle dolduran bir demo market: 86 ürün, 150 müşteri, ~330 sipariş, ~200 yorum ve izlenecek hassas veri olarak her siparişte TCKN. Üst bar, isteğin geçtiği CloudFront edge\'ini ve sunucunun çalıştığı zone\'u canlı ölçüp gösteriyor.',
+      'project.lz.guard': '<a href="https://github.com/egeeuzun/residency-guard" target="_blank" rel="noopener">Residency Guard</a>: Python ve boto3 ile yazdığım salt okunur denetim aracı. 9 kuralla CloudWatch loglarındaki IP, e-posta ve TCKN desenlerini, ECS Exec oturumlarını, NAT çıkışını (VPC Flow Logs ve Athena), DNS sorgularını, snapshot kopyalarını ve yedek politikasını tarayıp ✅ / ⚠️ / ❌ raporu üretiyor. İlk denetimde 12 ❌ çıktı; düzeltmelerden sonra sonuç 15 ✅, 1 ⚠️, 1 ❌ (Frankfurt\'taki NAT çıkışı).',
       'project.crc.desc': 'Statik web sitesi, API ve veritabanı birleşimiyle bulut üzerinde uçtan uca bir altyapı örneği.',
       'project.m365.name': 'Auto-M365-User-Add',
       'project.m365.desc': 'Microsoft Graph API ile otomatik M365 kullanıcı tedariki ve lisanslama akışı.',
@@ -110,8 +113,11 @@
 
       /* ── Projects ── */
       'projects.title': 'Projects',
-      'project.wpha.name': 'Highly Available WordPress Infrastructure',
-      'project.wpha.desc': 'A multi-AZ, auto-scaling WordPress platform on AWS built with Terraform: ALB behind CloudFront and WAF, an ECS Fargate service, RDS MariaDB with a read replica, ElastiCache, EFS for shared wp-content, and a CodePipeline-based CI/CD flow.',
+      'project.lz.name': 'WooCommerce on the AWS Istanbul Local Zone',
+      'project.lz.desc': 'I moved a WooCommerce store from Frankfurt to the AWS Istanbul Local Zone so that customer data stays in Türkiye, then checked with an automated audit whether the data really stays there. The project has three open-source parts:',
+      'project.lz.infra': '<a href="https://github.com/egeeuzun/woocommerce-istanbul-local-zone" target="_blank" rel="noopener">Infrastructure (Terraform)</a>: The same store is deployed twice: on ECS Fargate and RDS in Frankfurt, and, since the Local Zone has no Fargate or RDS, on ECS on EC2 with a self-managed MariaDB 11.8 (encrypted EBS, TLS enforced) in Istanbul. Backups are DLM snapshots that stay inside the zone, and both setups sit behind CloudFront and WAF. In k6 tests from Türkiye, dynamic pages got 37–67% faster (checkout 1045 ms → 529 ms).',
+      'project.lz.image': '<a href="https://github.com/egeeuzun/wordpress-shop-demo" target="_blank" rel="noopener">WordPress image</a>: A demo grocery store packaged as a Docker image for ECS that installs itself in Turkish on startup and seeds synthetic data: 86 products, 150 customers, ~330 orders, ~200 reviews and a national ID (TCKN) on every order as sensitive data to track. The top bar measures and shows, live, the CloudFront edge and the zone serving the request.',
+      'project.lz.guard': '<a href="https://github.com/egeeuzun/residency-guard" target="_blank" rel="noopener">Residency Guard</a>: A read-only audit tool I wrote in Python and boto3. Its 9 rules scan CloudWatch logs for IP, e-mail and TCKN patterns, ECS Exec sessions, NAT egress (VPC Flow Logs and Athena), DNS queries, snapshot copies and backup policies, and produce a ✅ / ⚠️ / ❌ report. The first audit found 12 ❌; after the fixes the result was 15 ✅, 1 ⚠️, 1 ❌ (NAT egress via Frankfurt).',
       'project.crc.desc': 'An end-to-end cloud infrastructure example combining a static website, API, and database.',
       'project.m365.name': 'Auto-M365-User-Add',
       'project.m365.desc': 'Automated M365 user provisioning and licensing workflow using Microsoft Graph API.',
